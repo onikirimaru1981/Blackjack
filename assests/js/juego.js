@@ -1,28 +1,33 @@
 
-(() => {  // Englobando todo mi codigo dentro de una funcion anonima auto invocada,evito que el usuario tenga acceso a las variables y codigo del juego
+(() => {                                                       // Englobando todo mi codigo dentro de una funcion anonima auto invocada,evito que
+    // el usuario tenga acceso a las variables y codigo del juego
     'use strict'
 
     let deck = [];
-    const tipos = ['C', 'D', 'H', 'S'];
-    const figuras = ['A', 'J', 'Q', 'K'];
+    const tipos = ['C', 'D', 'H', 'S'],
+        figuras = ['A', 'J', 'Q', 'K'];
 
-    let puntosJugador = 0,// En este caso para ahorrar algo de codigo,hemos aprobechado el let de la variable puntosJugador,
+    let puntosJugador = 0,                                    // En este caso para ahorrar algo de codigo,hemos aprobechado el let de la variable puntosJugador,
         // y simplemente poniendo una coma en la primera variable,podemos crear una segunda sin utilizar el let
         puntosMaquina = 0;
 
 
     // Refencias HTML
 
-    const btnPedir = document.querySelector('#btnPedir');
-    const btnDetener = document.querySelector('#btnDetener');
-    const btnNuevo = document.querySelector('#btnNuevo');
+    const btnPedir = document.querySelector('#btnPedir'),
+        btnDetener = document.querySelector('#btnDetener'),
+        btnNuevo = document.querySelector('#btnNuevo');
+
+    const cartasJugador = document.querySelector("#jugador-cartas"),
+        cartasMaquina = document.querySelector("#maquina-cartas"),
+        puntosHtml = document.querySelectorAll('small');
 
 
-    const cartasJugador = document.querySelector("#jugador-cartas")
-    const cartasMaquina = document.querySelector("#maquina-cartas")
-    const puntosHtml = document.querySelectorAll('small');
+    const inicializarJuego = () => {
 
-    // console.log(btnPedir);
+        deck = crearDeck();
+    };
+
 
     // Creacion de deck: necesito recrear todos los numeros de un deck para blackjack,tomando como referencia las imagenes 
     //obtenidas en internet de una baraja con nombres ingleses,y teniendo en cuenta que empiezan por dos y terminan en 10,
@@ -30,38 +35,35 @@
 
     const crearDeck = () => {
 
-        for (let i = 2; i <= 10; i++) {  // En este caso utilizare un ciclo for tradicional para crear los numeros
-            for (let tipo of tipos) { // En esta linea de codigo se utiliza un ciclo For of,para barrer el areglo
+        deck = [];
+
+        for (let i = 2; i <= 10; i++) {        // En este caso utilizare un ciclo for tradicional para crear los numeros
+            for (let tipo of tipos) {          // En esta linea de codigo se utiliza un ciclo For of,para barrer el areglo
                 //y  reutilizar el valor de i para concatenarlo a la variable tipo del ciclo For of
-
                 deck.push(i + tipo);
-
-            }
+            };
 
         };
 
-        for (let tipo of tipos) {  // En estas lineas de codigo,creo nuevamente un ciclo For of,para crear las figuras
-            // de la baraja, aprobechando la variable tipo del ciclo anterior la concateno al resultado de la variable de mi 
-            //ciclo For of de las figuras
+        for (let tipo of tipos) {             // En estas lineas de codigo,creo nuevamente un ciclo For of,para crear las figuras
+            // de la baraja, aprobechando la variable tipo del ciclo anterior la concateno al 
+            // resultado de la variable de mi  ciclo For of de las figuras
             for (let figura of figuras) {
 
                 deck.push(figura + tipo);
             };
 
-        }
+        };
 
-        // console.log(deck);
 
-        deck = _.shuffle(deck) // Aqui utilizariamos el _.suffle de Underscore para recibir una baraja con orden aleatorio
-        // console.log(deck);
-        return deck
+        return _.shuffle(deck)                // Aqui utilizariamos el _.suffle de Underscore para recibir una baraja con orden aleatorio
     };
 
     //Nota,para ordenar de forma aleatoria las variables de mi areglo deck,utilizare una libreria a 3º llamada Underscore
 
 
 
-    crearDeck()
+
 
     // Funcion para crear carta
     // Tener en cuenta las condiciones a suponer. Si tomo una carta esta deberia desaparecer del areglo
@@ -73,27 +75,13 @@
 
         if (deck.length === 0) {
 
-            throw 'No hay cartas en el deck'; // Con la intruccion throw devolvemos un
+            throw 'No hay cartas en el deck';                 // Con la intruccion throw devolvemos un
             // error en caso de que se cumpla la condicion,de esta manera evitando un posible error,
             // cuando el usuario se quede sin cartas y quiera seguir pidiendo una
-
-
         };
-        const carta = deck.pop();// Utilizo metodo pop() para borrar ultimo valor del array
-        // console.log(carta);
-        // console.log(deck);
-        return carta // Retorno la carta
+
+        return deck.pop(); // Retorno la carta,// Utilizo metodo pop() para borrar ultimo valor del array
     };
-
-    // deck = []; Codigo para testear si el deck esta vacio,enviar error con mensaje al usuario
-
-    // for (let i = 0; i <= 100; i++) { // Otra forma de comprobar la funcion pedirCarta()
-
-    //     pedirCarta()
-
-    // };
-
-    // pedirCarta();
 
 
     const valorCarta = (carta) => {
@@ -269,10 +257,10 @@
 
     // Nuevo juego
     btnNuevo.addEventListener('click', () => {
+        console.clear
 
         location.reload();
-
-
+        inicializarJuego();
     });
 
 })();
